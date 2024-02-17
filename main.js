@@ -1,5 +1,7 @@
 // add the tabs widget 
-
+$( function() {
+    $( "#tabs" ).tabs();
+  } );
 // creater play game page with images array of object with 1. front 2. back 3. blank
 
 // based on waht user wants, randomly select (from grab half of that from array and duplicate it forr ther (matching)
@@ -11,3 +13,11 @@
     // div row 3
 
     // animate for the cards
+// create large doc ready
+function settings() {
+    var name = document.getElementById("name").value;
+    var numOfCards = document.getElementById("numOfCards").value;
+    sessionStorage.setItem("name", name);
+    sessionStorage.setItem("numOfCards", numOfCards);
+    location.reload(); 
+}
