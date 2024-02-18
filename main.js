@@ -1,23 +1,72 @@
-// add the tabs widget 
-$( function() {
-    $( "#tabs" ).tabs();
-  } );
-// creater play game page with images array of object with 1. front 2. back 3. blank
 
-// based on waht user wants, randomly select (from grab half of that from array and duplicate it forr ther (matching)
+"use strict";
 
-// div id cards
-    // div row 1
-        // each card <a> elemnt with id set to eh src attrivte for card, and its href attribute set to #. the <a> elemtn contain img elemnt with its srt attrive set to eh source image for the back of t he card and its lat attributer set to ""
-    // div row 2
-    // div row 3
+$(document).ready( () => {
+  // tabs widget
+  $(function () {
+    $("#tabs").tabs();
+  });
 
-    // animate for the cards
-// create large doc ready
-function settings() {
-    var name = document.getElementById("name").value;
-    var numOfCards = document.getElementById("numOfCards").value;
-    sessionStorage.setItem("name", name);
+  // save settings tab
+  $("#settings").submit(event => {
+    event.preventDefault()
+    // get values and trim
+    var playerName = $("#player_name").val().trim();
+    var numOfCards = $("#num_cards").val();
+
+    // save to session
+    sessionStorage.setItem("playerName", playerName);
     sessionStorage.setItem("numOfCards", numOfCards);
-    location.reload(); 
+
+    location.reload();
+  });
+
+  // display the current info
+  var curName = sessionStorage.getItem("playerName");
+  
+  $("#playerName").text(curName);
+
+  // display cards
+ createCards();
+
+  // matching cards
+
+});
+
+function createCards()
+{
+  var curCards = sessionStorage.getItem("numOfCards");
+  var images = []
+
+  // duplicate image add twice
+  for (var i = 0; i < curCards/2; i++) {
+    var image = "images/card_" + (i + 1) + ".png";
+    images.push(image);
+    images.push(image);
+  }
+  shuffle(images);
+    // add to container
+
+    for (var i = 0; i < curCards; i++) {
+          var card = $("<a>").attr("href", "#").attr("id", "card_" + (i+1));
+          var frontImage = $("<img>").attr("src", images[i]).attr("alt", "");
+          card.append(frontImage);
+          $("#cards").append(card).hide();
+
+          var card2 = $("<a>").attr("href", "#").attr("id", "back");
+          var backImage = $("<img>").attr("src",  "images/back.png").attr("alt", "");
+          card2.append(backImage);
+          $("#cards2").append(backImage);
+        }
+  }
+
+    // shuffle function
+    function shuffle(images) {
+      for (var i = images.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = images[i];
+        images[i] = images[j];
+        images[j] = temp;
+      }
+
 }

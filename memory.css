@@ -37,6 +37,13 @@ header p {
     padding-bottom: 3px;
     float: left; 
 }
+#cards2 img {
+    height: 100px;
+    width: 80px;
+    padding-right: 5px;
+    padding-bottom: 3px;
+    float: left; 
+}
 .clear {
     clear: both;
 }
