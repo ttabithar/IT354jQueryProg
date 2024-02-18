@@ -1,4 +1,3 @@
-
 "use strict";
 
 $(document).ready( () => {
@@ -30,13 +29,35 @@ $(document).ready( () => {
  createCards();
 
   // matching cards
+  $("#cards2").on("click", "img", function() {
+    // Find the index of the clicked back card
+    var index = $(this).index();
+    console.log(index);
+    // Find the corresponding front card by index
 
+    $(this).fadeOut();
+
+    $("#cards").on("click", "img", function() {
+      // Find the index of the clicked back card
+      var index = $(this).index();
+      console.log(index);
+      // Find the corresponding front card by index
+    
+      $(this).fadeIn();
+    });
 });
 
+
+
+
+
+
+});
+var images = []
 function createCards()
 {
   var curCards = sessionStorage.getItem("numOfCards");
-  var images = []
+  
 
   // duplicate image add twice
   for (var i = 0; i < curCards/2; i++) {
@@ -58,6 +79,7 @@ function createCards()
           card2.append(backImage);
           $("#cards2").append(backImage);
         }
+
   }
 
     // shuffle function
@@ -70,3 +92,4 @@ function createCards()
       }
 
 }
+
