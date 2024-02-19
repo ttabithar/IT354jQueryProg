@@ -24,7 +24,7 @@ $(document).ready( () => {
   // display the current info
   var curName = sessionStorage.getItem("playerName");
   
-  $("#playerName").text(curName);
+  $("#playerName").text(curName); pull
 
 
 // flip a card
