@@ -10,7 +10,7 @@ $(document).ready( () => {
   // save settings tab
   $("#settings").submit(event => {
     event.preventDefault()
-    // get values and trim
+    // get values and trim values
     var playerName = $("#player_name").val().trim();
     var numOfCards = $("#num_cards").val();
 
