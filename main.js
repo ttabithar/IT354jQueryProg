@@ -1,5 +1,6 @@
 "use strict";
-
+var index = 0;
+var points = 0;
 $(document).ready( () => {
   // tabs widget
   $(function () {
@@ -31,10 +32,11 @@ $(document).ready( () => {
 var index2 = -1;
 var image = null;
 var counter = 0;
+
 $("#cards").on("click", "img", function() {
 
-  var index = $(this).index(); // index of clicked image
-  $(this).fadeOut();
+  index = $(this).index(); // index of clicked image
+  console.log("index "+index);
 
   // create new image element and replace the original
   image = $("<img>").attr("src", images[index]).attr("alt", "");
@@ -46,18 +48,25 @@ console.log("he");
 if (counter == 1) // we have 2 selected cards
 {
   console.log("here");
+  console.log("index2 "+index2);
   if (images[index] == images[index2]) // match
   {
     console.log("match");
     var blank = $("<img>").attr("src", "/images/blank.png").attr("alt", "");
     $("#cards img").eq(index).fadeIn().replaceWith(blank);
-    $("#cards img").eq(index2).fadeIn().replaceWith(blank);
+    var blank2 = $("<img>").attr("src", "/images/blank.png").attr("alt", "");
+    $("#cards img").eq(index2).fadeIn().replaceWith(blank2);
+    index2 = -1;
+
+    points++;
   }
   else{ // no match
     console.log("no match");
     var back = $("<img>").attr("src", "/images/back.png").attr("alt", "");
-    $("#cards img").eq(index).fadeIn().replaceWith(back);
-    $("#cards img").eq(index2).fadeIn().replaceWith(back);
+    $("#cards img").eq(index).fadeIn().replaceWith(back); console.log("flipping back  " + index);
+    var back2 = $("<img>").attr("src", "/images/back.png").attr("alt", "");
+    $("#cards img").eq(index2).fadeIn().replaceWith(back2);console.log("flipping back  " + index2);
+    index2 = null
   }
   counter = 0; // reset
 }
@@ -66,7 +75,7 @@ else{
   index2 = index;
   console.log("hello");
 }
-}, 500);
+}, 200);
 
 });
 
