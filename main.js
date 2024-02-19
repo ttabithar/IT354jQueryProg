@@ -5,7 +5,8 @@ $(document).ready( () => {
   $(function () {
     $("#tabs").tabs();
   });
-
+  // display cards
+  createCards();
   // save settings tab
   $("#settings").submit(event => {
     event.preventDefault()
@@ -25,8 +26,6 @@ $(document).ready( () => {
   
   $("#playerName").text(curName);
 
-  // display cards
- createCards();
 
 // flip a card
 var index2 = -1;
@@ -76,7 +75,7 @@ else{
 var images = [] // global 
 function createCards()
 {
-  var curCards = sessionStorage.getItem("numOfCards");
+  var curCards = sessionStorage.getItem("numOfCards") || 48;
   
   // duplicate image add twice
   for (var i = 0; i < curCards/2; i++) {
