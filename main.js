@@ -13,7 +13,7 @@ $(document).ready( () => {
     // get values and trim values
     var playerName = $("#player_name").val().trim();
     var numOfCards = $("#num_cards").val();
-
+// delete this
     // save to session
     sessionStorage.setItem("playerName", playerName);
     sessionStorage.setItem("numOfCards", numOfCards);
