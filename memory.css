@@ -27,7 +27,7 @@ input[type=checkbox] {
 header p {
 	margin: 0 2em 1em 0;
 }
-#new_game, #player, #high_score, #correct {
+#new_game, #player, #high_score, #correct #score {
 	float: left;
 }
 #cards img {

@@ -1,7 +1,9 @@
 "use strict";
 var index = 0;
 var points = 0;
-$(document).ready( () => {
+var matchCount = 0;
+var tryCount = 0;
+$(document).ready(() => {
   // tabs widget
   $(function () {
     $("#tabs").tabs();
@@ -24,92 +26,96 @@ $(document).ready( () => {
 
   // display the current info
   var curName = sessionStorage.getItem("playerName");
-  
   $("#playerName").text(curName);
+  $("#high_score2").text(sessionStorage.getItem("score"));
 
+  // flip a card
+  var index2 = -1;
+  var image = null;
+  var counter = 0;
 
-// flip a card
-var index2 = -1;
-var image = null;
-var counter = 0;
+  $("#cards").on("click", "img", function () {
 
-$("#cards").on("click", "img", function() {
+    index = $(this).index(); // index of clicked image
 
-  index = $(this).index(); // index of clicked image
-  console.log("index "+index);
+    // create new image element and replace the original
+    image = $("<img>").attr("src", images[index]).attr("alt", "");
+    $("#cards img").eq(index).fadeIn().replaceWith(image);
 
-  // create new image element and replace the original
-  image = $("<img>").attr("src", images[index]).attr("alt", "");
-  $("#cards img").eq(index).fadeIn().replaceWith(image);
-  
-  setTimeout(() => {
-// match cards
-console.log("he");
-if (counter == 1) // we have 2 selected cards
-{
-  console.log("here");
-  console.log("index2 "+index2);
-  if (images[index] == images[index2]) // match
-  {
-    console.log("match");
-    var blank = $("<img>").attr("src", "/images/blank.png").attr("alt", "");
-    $("#cards img").eq(index).fadeIn().replaceWith(blank);
-    var blank2 = $("<img>").attr("src", "/images/blank.png").attr("alt", "");
-    $("#cards img").eq(index2).fadeIn().replaceWith(blank2);
-    index2 = -1;
+    setTimeout(() => {
+      // match cards
+      if (counter == 1) // we have 2 selected cards
+      {
+        if (images[index] == images[index2]) // match
+        {
+          matchCount++;
+          tryCount++;
+          var blank = $("<img>").attr("src", "images/blank.png").attr("alt", "");
+          $("#cards img").eq(index).fadeIn().replaceWith(blank);
+          var blank2 = $("<img>").attr("src", "images/blank.png").attr("alt", "");
+          $("#cards img").eq(index2).fadeIn().replaceWith(blank2);
+          index2 = -1;
+        }
+        else { // no match
+          tryCount++;
+          var back = $("<img>").attr("src", "images/back.png").attr("alt", "");
+          $("#cards img").eq(index).fadeIn().replaceWith(back);
+          var back2 = $("<img>").attr("src", "images/back.png").attr("alt", "");
+          $("#cards img").eq(index2).fadeIn().replaceWith(back2);
+          index2 = null
+        }
+        counter = 0; // reset
+      }
+      else {
+        counter++;
+        index2 = index;
+      }
 
-    points++;
-  }
-  else{ // no match
-    console.log("no match");
-    var back = $("<img>").attr("src", "/images/back.png").attr("alt", "");
-    $("#cards img").eq(index).fadeIn().replaceWith(back); console.log("flipping back  " + index);
-    var back2 = $("<img>").attr("src", "/images/back.png").attr("alt", "");
-    $("#cards img").eq(index2).fadeIn().replaceWith(back2);console.log("flipping back  " + index2);
-    index2 = null
-  }
-  counter = 0; // reset
-}
-else{
-  counter++;
-  index2 = index;
-  console.log("hello");
-}
-}, 200);
+      if (matchCount == (sessionStorage.getItem("numOfCards") / 2)) {
+        // show finished score
+        $("#correct2").text((matchCount / tryCount).toFixed(2) * 100 + "%");
+        $("#score2").text(tryCount);
+        // save to session if better than previous
+        if (tryCount < sessionStorage.getItem("score")) {
+          sessionStorage.setItem("score", tryCount);
+          $("#high_score2").text(tryCount);
+        }
+        sessionStorage.setItem("score", tryCount);
+      }
+    }, 200);
 
-});
+  });
 
 });
 
 var images = [] // global 
-function createCards()
-{
+function createCards() {
   var curCards = sessionStorage.getItem("numOfCards") || 48;
-  
+
   // duplicate image add twice
-  for (var i = 0; i < curCards/2; i++) {
+  for (var i = 0; i < curCards / 2; i++) {
     var image = "images/card_" + (i + 1) + ".png";
     images.push(image);
     images.push(image);
   }
   shuffle(images);
-    // add to container
-    for (var i = 0; i < curCards; i++) {
-          var card = $("<a>").attr("href", "#").attr("id", "back");
-          var backImage = $("<img>").attr("src",  "images/back.png").attr("alt", "");
-          card.append(backImage);
-          $("#cards").append(backImage);
-        }
+  // add to container
+  for (var i = 0; i < curCards; i++) {
+    var card = $("<a>").attr("href", "#").attr("id", "back");
+    var backImage = $("<img>").attr("src", "images/back.png").attr("alt", "");
+    card.append(backImage);
+    $("#cards").append(backImage);
   }
+}
 
-    // shuffle function for images array
-    function shuffle(images) {
-      for (var i = images.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = images[i];
-        images[i] = images[j];
-        images[j] = temp;
-      }
+// shuffle function for images array
+function shuffle(images) {
+  for (var i = images.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = images[i];
+    images[i] = images[j];
+    images[j] = temp;
+  }
 
 }
 
