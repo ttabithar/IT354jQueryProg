@@ -3,6 +3,7 @@ var index = 0;
 var points = 0;
 var matchCount = 0;
 var tryCount = 0;
+sessionStorage.setItem("score", (0));
 $(document).ready(() => {
   // tabs widget
   $(function () {
@@ -27,7 +28,11 @@ $(document).ready(() => {
   // display the current info
   var curName = sessionStorage.getItem("playerName");
   $("#playerName").text(curName);
-  $("#high_score2").text(sessionStorage.getItem("score"));
+  var score2 = parseInt(sessionStorage.getItem("score"));
+  if (score2 != null)
+  {
+    $("#high_score2").text(score2.toFixed(2) * 100 + "%");
+  }
 
   // flip a card
   var index2 = -1;
@@ -75,12 +80,14 @@ $(document).ready(() => {
         // show finished score
         $("#correct2").text((matchCount / tryCount).toFixed(2) * 100 + "%");
         $("#score2").text(tryCount);
+        sessionStorage.setItem("score", (matchCount/tryCount));
+        console.log("before");
         // save to session if better than previous
-        if (tryCount < sessionStorage.getItem("score")) {
-          sessionStorage.setItem("score", tryCount);
-          $("#high_score2").text(tryCount);
+        if ((matchCount/tryCount) > sessionStorage.getItem("score")) {
+          sessionStorage.setItem("score", (matchCount/tryCount));
+          console.log("score " + sessionStorage.getItem("score"));
+          $("#high_score2").text((matchCount / tryCount).toFixed(2) * 100 + "%");
         }
-        sessionStorage.setItem("score", tryCount);
       }
     }, 200);
 
