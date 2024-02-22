@@ -1,9 +1,8 @@
 "use strict";
 var index = 0;
-var points = 0;
 var matchCount = 0;
 var tryCount = 0;
-sessionStorage.setItem("score", (0));
+
 $(document).ready(() => {
   // tabs widget
   $(function () {
@@ -28,10 +27,10 @@ $(document).ready(() => {
   // display the current info
   var curName = sessionStorage.getItem("playerName");
   $("#playerName").text(curName);
-  var score2 = parseInt(sessionStorage.getItem("score"));
-  if (score2 != null)
+  var score2 = sessionStorage.getItem("score");
+  if (sessionStorage.getItem("score") != -1)
   {
-    $("#high_score2").text(score2.toFixed(2) * 100 + "%");
+    $("#high_score2").text(sessionStorage.getItem("score") * 100 + "%");
   }
 
   // flip a card
@@ -80,12 +79,9 @@ $(document).ready(() => {
         // show finished score
         $("#correct2").text((matchCount / tryCount).toFixed(2) * 100 + "%");
         $("#score2").text(tryCount);
-        sessionStorage.setItem("score", (matchCount/tryCount));
-        console.log("before");
         // save to session if better than previous
-        if ((matchCount/tryCount) > sessionStorage.getItem("score")) {
+        if ((matchCount/tryCount) >= (sessionStorage.getItem("score") || -1)) {
           sessionStorage.setItem("score", (matchCount/tryCount));
-          console.log("score " + sessionStorage.getItem("score"));
           $("#high_score2").text((matchCount / tryCount).toFixed(2) * 100 + "%");
         }
       }
